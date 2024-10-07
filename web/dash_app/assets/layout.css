@@ -1,0 +1,62 @@
+body {
+    background-color: rgb(255, 230, 210);
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    padding: 0% 10% 0 10%
+}
+
+#display-page {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;;
+    column-gap: 20px;
+}
+
+.form {
+    padding: 20px;
+    display: flex;
+    width: 320px;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.45);
+}
+
+.section-header {
+    font-style: italic;
+}
+
+.section :hover {
+    background-color: inherit;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+}
+
+.field-header {
+    font-weight: bold;
+}
+
+.field-body {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 5px;
+}
+
+.field-helper {
+    font-style: italic;
+    color: grey;
+}
+
+.field-pickers {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+}
+
