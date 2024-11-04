@@ -21,7 +21,6 @@ def ac_power_from_nwp(
     return ac_power
 
 
-
 class Simulator:
 
     def __init__(self):

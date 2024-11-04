@@ -8,9 +8,15 @@ import xarray as xr
 from deltalake import DeltaTable
 from holoviews import opts
 from logic import files
-from logic.models import (Coordinate, Direction, InverterParameters,
-                          ModuleParameters, System, SystemParameters,
-                          ThermalParameters)
+from logic.models import (
+    Coordinate,
+    Direction,
+    InverterParameters,
+    ModuleParameters,
+    System,
+    SystemParameters,
+    ThermalParameters,
+)
 from logic.simulation.simulator import Simulator
 
 hv.extension("plotly")

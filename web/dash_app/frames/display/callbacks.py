@@ -1,23 +1,28 @@
-from functools import lru_cache
-
 import plotly.express as px
+from plotly import subplots
 import xarray as xr
 import pandas as pd
 import numpy as np
 import datetime as dt
 from dash import Input, Output, callback
+from cache import cache
 
-from dash_app.logic.models import (Coordinate, Direction, InverterParameters,
-                                   ModuleParameters, System, SystemParameters,
-                                   ThermalParameters)
+from dash_app.logic.models import (
+    Coordinate,
+    Direction,
+    InverterParameters,
+    ModuleParameters,
+    System,
+    SystemParameters,
+    ThermalParameters,
+)
 from dash_app.logic.simulation.simulator import Simulator
-
 
 
 def resample_interpolate_center(ds: xr.Dataset, method: str, **indexer_kwargs):
     if len(indexer_kwargs) > 1:
         raise ValueError("Center interpolation only supported along one axis.")
-    
+
     dim = list(indexer_kwargs.keys())[0]
 
     start_freq = pd.Timedelta(f"1{xr.infer_freq(ds[dim])}").to_numpy()
@@ -25,26 +30,24 @@ def resample_interpolate_center(ds: xr.Dataset, method: str, **indexer_kwargs):
     end_freq = np.timedelta64(list(indexer_kwargs.values())[0])
 
     ds = ds.copy()
-    
+
     ds = ds.resample(**indexer_kwargs).asfreq()
 
     ds = ds.interpolate_na(dim=dim, method=method)
 
-    ds[dim] = ds[dim] - start_freq/2
+    ds[dim] = ds[dim] - start_freq / 2
 
     return ds
 
 
-@lru_cache()
+@cache.memoize()
 def get_nwp():
     nwp = xr.open_dataset(
-        "/home/uch/PVForecast/data/etl_function_app/compressed.nc", engine="h5netcdf"
+        "/home/uch/PVForecast/_OLD_data/etl_function_app/compressed.nc", engine="h5netcdf"
     )
-    
+
     nwp = resample_interpolate_center(
-        nwp,
-        method="pchip",
-        time_utc=dt.timedelta(minutes=5)
+        nwp, method="pchip", time_utc=dt.timedelta(minutes=5)
     )
 
     return nwp
@@ -149,18 +152,51 @@ def display_graph(
 
     df["time_local"] = df["time_utc"].dt.tz_localize("Europe/Copenhagen")
 
-    df = df.rename(columns={
-        "time_local": "Tid",
-        "ac_power": "Effekt [kW]",
-    })
-
-    plot = px.line(
-        df,
-        x="Tid",
-        y="Effekt [kW]",
+    df = df.rename(
+        columns={
+            "time_local": "Tid",
+            "ac_power": "Effekt [kW]",
+            "global_radiation_W_m2": "Global solindstråling [W/m2]",
+        }
     )
 
-    fig = plot.update_layout(
+    fig = subplots.make_subplots(
+        rows=2,
+        cols=1,
+        shared_xaxes=True,
+    )
+
+    power_plot = px.line(
+        df,
+        x="Tid",
+        y=["Effekt [kW]"],
+        color_discrete_map={
+            "Effekt [kW]": "#d62728",
+        }
+    )
+
+    nwp_plot = px.line(
+        df,
+        x="Tid",
+        y=["Global solindstråling [W/m2]"],
+        color_discrete_map = {
+            "Global solindstråling [W/m2]"
+        }
+    )
+
+    fig.add_traces(
+        data=power_plot.data,
+        rows=1,
+        cols=1,
+    )
+
+    fig.add_traces(
+        data=nwp_plot.data,
+        rows=2,
+        cols=1,
+    )
+
+    fig.update_layout(
         {
             "paper_bgcolor": "rgba(0,0,0,0)",
             "plot_bgcolor": "rgba(255,255,255,0.3)",
@@ -174,9 +210,38 @@ def display_graph(
                 "ticks": "outside",
                 "showline": True,
             },
-            "xaxis_title": "Tid",
-            "yaxis_title": "Effekt [kW]",
+            "xaxis2_title": "Tid [UTC]",
         }
     )
 
     return fig
+
+
+@callback(
+    Output("address", "style"),
+    Output("coordinate", "style"),
+    Input("location-type", "value")
+)
+def show_location_type_input(location_type: str):
+    if location_type == "address":
+        return (
+            {
+                "display": "flex",
+                "visibility": "visible",
+            }, 
+            {
+                "display": "none",
+                "visibility": "hidden",
+            },
+        )
+    else:
+        return (
+            {
+                "display": "none",
+                "visibility": "hidden",
+            },
+            {
+                "display": "flex",
+                "visibility": "visible",
+            }, 
+        )

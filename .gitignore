@@ -163,3 +163,5 @@ cython_debug/
 *.nc
 *.parquet
 *.grib
+*.h5
+.diskcache

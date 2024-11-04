@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@dataforsyningen/gsearch-ui": "^2.1.3"
+  }
+}

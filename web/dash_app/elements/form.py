@@ -2,8 +2,9 @@ import dash_mantine_components as dmc
 from dash import html
 from dash_app.elements.section import Section
 
+
 class Form:
-    
+
     def __init__(
         self,
         sections: list[Section],

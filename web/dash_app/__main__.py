@@ -11,9 +11,8 @@ logger = logging.getLogger(__name__)
 app = Dash(
     __name__,
     suppress_callback_exceptions=True,
-    external_stylesheets=[
-        "/dash_app/assets/layout.css",
-        "/dash_app/assets/typography.css",
+    external_scripts=[
+        "https://cdn.dataforsyningen.dk/dawa/assets/dawa-autocomplete2/1.0.2/dawa-autocomplete2.min.js"
     ],
 )
 

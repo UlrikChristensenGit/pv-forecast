@@ -1,5 +1,5 @@
 import dash_mantine_components as dmc
-from dash import dcc, html
+from dash import dcc, html, clientside_callback
 from dash_app.elements import Form, Section, Field
 
 
@@ -8,6 +8,7 @@ container = html.Div(
     children=[
         Form(
             sections=[
+
                 Section(
                     name="Egenskaber",
                     is_open=True,
@@ -15,21 +16,41 @@ container = html.Div(
                         Field(
                             name="Placering",
                             pickers=[
-                                dmc.NumberInput(
-                                    id="latitude",
-                                    placeholder="Latitude",
-                                    hideControls=True,
-                                    decimalSeparator=".",
-                                    precision=2,
-                                    value=55.36,
+                                dmc.SegmentedControl(
+                                    id="location-type",
+                                    value="address",
+                                    data=[
+                                        {"value": "address", "label": "Addresse"},
+                                        {"value": "coordinate", "label": "Koordinat"},
+                                    ],
                                 ),
-                                dmc.NumberInput(
-                                    id="longitude",
-                                    placeholder="Longitude",
-                                    hideControls=True,
-                                    decimalSeparator=".",
-                                    precision=2,
-                                    value=10.39,
+                                dmc.Select(
+                                    id="address",
+                                    searchable=True,
+                                    initiallyOpened=True,
+                                    disabled=True,
+                                ),
+                                html.Div(
+                                    id="coordinate",
+                                    className="field",
+                                    children=[
+                                        dmc.NumberInput(
+                                            id="latitude",
+                                            placeholder="Latitude",
+                                            hideControls=True,
+                                            decimalSeparator=".",
+                                            precision=2,
+                                            value=55.36,
+                                        ),
+                                        dmc.NumberInput(
+                                            id="longitude",
+                                            placeholder="Longitude",
+                                            hideControls=True,
+                                            decimalSeparator=".",
+                                            precision=2,
+                                            value=10.39,
+                                        ),
+                                    ],
                                 ),
                             ],
                         ),
@@ -77,7 +98,7 @@ container = html.Div(
                                     value=45,
                                 ),
                             ],
-                            helper_id="tilt-helper"
+                            helper_id="tilt-helper",
                         ),
                         Field(
                             name="Orientering (grader fra nord)",
@@ -93,7 +114,7 @@ container = html.Div(
                                     value=180,
                                 ),
                             ],
-                            helper_id="azimuth-helper"
+                            helper_id="azimuth-helper",
                         ),
                     ],
                 ),
@@ -113,7 +134,7 @@ container = html.Div(
                                     placeholder=["%"],
                                     value=0.96,
                                 ),
-                            ]
+                            ],
                         )
                     ],
                 ),

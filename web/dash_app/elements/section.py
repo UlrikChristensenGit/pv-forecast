@@ -3,7 +3,7 @@ from dash_app.elements.field import Field
 
 
 class Section:
-    
+
     def __init__(
         self,
         name: str,
