@@ -16,16 +16,8 @@ class ETL:
             storage_account_name="saenigmaarchivedev",
             container_name="analysis",
         )
-        self.versioned_nwp_dataset = self._get_versioned_nwp_dataset()
-
-    def _get_versioned_nwp_dataset(self):
-        name = "versioned_nwp"
-
-        if self.data_lake.dataset_exists(name):
-            return self.data_lake.get_dataset(name)
-
-        return self.data_lake.create_dataset(
-            name=name,
+        self.versioned_nwp_dataset = self.data_lake.create_dataset(
+            name="versioned_nwp",
             partition_schema={
                 "model_run_time_utc": "datetime64[ms]",
                 "time_utc": "datetime64[ms]",
@@ -48,7 +40,9 @@ class ETL:
 
         else:
             new_forecasts = available_forecasts.join(
-                downloaded_forecasts, on=["model_run_time_utc", "time_utc"], how="anti"
+                downloaded_forecasts,
+                on=["model_run_time_utc", "time_utc"],
+                how="anti",
             )
 
         logger.info(

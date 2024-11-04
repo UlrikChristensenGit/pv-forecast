@@ -1,14 +1,14 @@
 from dash import Input, Output, callback
 
-from dash_app.frames import display
+from dash_app.frames import forecast
 
 
 # CALLBACKS
 @callback(
-    Output("display-frame", "children"),
+    Output("frame", "children"),
     Input("url", "pathname"),
 )
 def display_frame(pathname: str):
     match pathname:
-        case "/display":
-            return display.layout.container
+        case "/forecast":
+            return forecast.layout.container

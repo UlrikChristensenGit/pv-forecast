@@ -1,14 +1,13 @@
 import dash_mantine_components as dmc
-from dash import dcc, html, clientside_callback
+from dash import dcc, html
 from dash_app.elements import Form, Section, Field
 
 
 container = html.Div(
-    id="display-page",
+    id="forecast-page",
     children=[
         Form(
             sections=[
-
                 Section(
                     name="Egenskaber",
                     is_open=True,
@@ -140,6 +139,6 @@ container = html.Div(
                 ),
             ],
         ).container,
-        html.Div(className="result", children=[dcc.Loading(dcc.Graph(id="graph"))]),
+        html.Div(className="result", children=[dcc.Loading(dcc.Graph(id="forecast-graph"))]),
     ],
 )

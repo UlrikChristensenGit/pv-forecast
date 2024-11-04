@@ -90,7 +90,7 @@ def update_azimuth_help(azimuth: float):
 
 
 @callback(
-    Output("graph", "figure"),
+    Output("forecast-graph", "figure"),
     Input("installed_dc_capacity", "value"),
     Input("installed_ac_capacity", "value"),
     Input("latitude", "value"),
@@ -99,7 +99,7 @@ def update_azimuth_help(azimuth: float):
     Input("azimuth", "value"),
     Input("inverter_efficiency", "value"),
 )
-def display_graph(
+def display_forecast_graph(
     installed_dc_capacity: float,
     installed_ac_capacity: float,
     latitude: float,
@@ -180,7 +180,7 @@ def display_graph(
         x="Tid",
         y=["Global solindstråling [W/m2]"],
         color_discrete_map = {
-            "Global solindstråling [W/m2]"
+            "Global solindstråling [W/m2]": "#bcbd22",
         }
     )
 
@@ -211,6 +211,14 @@ def display_graph(
                 "showline": True,
             },
             "xaxis2_title": "Tid [UTC]",
+            "yaxis_title": "[MW]",
+            "yaxis2_title": "[W/m2]",
+            "margin": {
+                "l": 0,
+                "r": 0,
+                "t": 0,
+                "b": 0,
+            }
         }
     )
 

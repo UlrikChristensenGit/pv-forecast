@@ -111,7 +111,7 @@ def radiation_energy_to_power(ds: xr.Dataset) -> xr.Dataset:
     return ds
 
 
-def transform_dataset(ds: xr.Dataset) -> xr.Dataset:
+def transform(ds: xr.Dataset) -> xr.Dataset:
     ds = deaccumulate_radiation(ds)
 
     ds = radiation_energy_to_power(ds)

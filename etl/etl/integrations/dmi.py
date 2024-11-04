@@ -29,7 +29,7 @@ class DMIOpenData:
 
         df = df.with_columns(
             [
-                pl.col(["modelRun", "datetime", "created"]).str.to_datetime(),
+                pl.col(["modelRun", "datetime", "created"]).str.to_datetime().dt.replace_time_zone(None),
             ]
         )
 

@@ -70,7 +70,7 @@ def transform_nwp(ds: xr.Dataset) -> xr.Dataset:
             "u10": "wind_u_m_s",
             "v10": "wind_v_m_s",
             "grad": "accumulated_global_radiation_W_m2",
-            "nswrf": "accumulated_direct_radiation_W_m2",
+            "unknown": "accumulated_direct_radiation_W_m2",
             "heightAboveGround": "altitude_m",
             "valid_time": "time_utc",
             "time": "model_run_time_utc",
