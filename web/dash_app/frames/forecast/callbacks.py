@@ -6,6 +6,7 @@ import numpy as np
 import datetime as dt
 from dash import Input, Output, callback
 from cache import cache
+from sdk import Dataset
 
 from dash_app.logic.models import (
     Coordinate,
@@ -17,6 +18,9 @@ from dash_app.logic.models import (
     ThermalParameters,
 )
 from dash_app.logic.simulation.simulator import Simulator
+import logging
+logger = logging.getLogger("azure.core.pipeline.policies.http_logging_policy")
+logger.setLevel(logging.WARNING)
 
 
 def resample_interpolate_center(ds: xr.Dataset, method: str, **indexer_kwargs):
@@ -29,7 +33,7 @@ def resample_interpolate_center(ds: xr.Dataset, method: str, **indexer_kwargs):
 
     end_freq = np.timedelta64(list(indexer_kwargs.values())[0])
 
-    ds = ds.copy()
+    ds = ds.dropna(dim="time_utc")
 
     ds = ds.resample(**indexer_kwargs).asfreq()
 
@@ -39,12 +43,16 @@ def resample_interpolate_center(ds: xr.Dataset, method: str, **indexer_kwargs):
 
     return ds
 
+def get_nwp(date_range: tuple[str, str]):
+    nwp = Dataset("latest_nwp").read()
 
-@cache.memoize()
-def get_nwp():
-    nwp = xr.open_dataset(
-        "/home/uch/PVForecast/_OLD_data/etl_function_app/compressed.nc", engine="h5netcdf"
-    )
+    nwp = nwp.sel(time_utc=slice(date_range[0], date_range[1]), x=slice(1203, 1441), y=slice(780, 1027))
+
+    nwp = nwp.coarsen(x=4, y=4, boundary="trim").mean()
+
+    nwp = nwp.bfill(dim="altitude_m").sel(altitude_m=0)
+
+    nwp = nwp.compute()
 
     nwp = resample_interpolate_center(
         nwp, method="pchip", time_utc=dt.timedelta(minutes=5)
@@ -64,6 +72,9 @@ def update_tilt_help(tilt: float):
         return "Lodret"
     else:
         return "Skrå"
+
+
+sim = Simulator()
 
 
 @callback(
@@ -98,6 +109,7 @@ def update_azimuth_help(azimuth: float):
     Input("tilt", "value"),
     Input("azimuth", "value"),
     Input("inverter_efficiency", "value"),
+    Input("date-range", "value")
 )
 def display_forecast_graph(
     installed_dc_capacity: float,
@@ -107,6 +119,7 @@ def display_forecast_graph(
     tilt: float,
     azimuth: float,
     inverter_efficiency: float,
+    date_range: list[str],
 ):
     if not installed_dc_capacity or not latitude or not longitude:
         return px.line()
@@ -142,9 +155,7 @@ def display_forecast_graph(
         coordinate=coord,
     )
 
-    sim = Simulator()
-
-    nwp = get_nwp()
+    nwp = get_nwp(date_range)
 
     result = sim.run(system, nwp)
 
@@ -155,7 +166,7 @@ def display_forecast_graph(
     df = df.rename(
         columns={
             "time_local": "Tid",
-            "ac_power": "Effekt [kW]",
+            "ac_power": "Produktion [kW]",
             "global_radiation_W_m2": "Global solindstråling [W/m2]",
         }
     )
@@ -164,14 +175,15 @@ def display_forecast_graph(
         rows=2,
         cols=1,
         shared_xaxes=True,
+        subplot_titles=("Produktion", "Global solindstråling")
     )
 
     power_plot = px.line(
         df,
         x="Tid",
-        y=["Effekt [kW]"],
+        y=["Produktion [kW]"],
         color_discrete_map={
-            "Effekt [kW]": "#d62728",
+            "Produktion [kW]": "#d62728",
         }
     )
 
@@ -211,12 +223,12 @@ def display_forecast_graph(
                 "showline": True,
             },
             "xaxis2_title": "Tid [UTC]",
-            "yaxis_title": "[MW]",
+            "yaxis_title": "[kW]",
             "yaxis2_title": "[W/m2]",
             "margin": {
                 "l": 0,
                 "r": 0,
-                "t": 0,
+                "t": 20,
                 "b": 0,
             }
         }

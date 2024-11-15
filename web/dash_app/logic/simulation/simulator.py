@@ -45,33 +45,6 @@ class Simulator:
         nearest_neighbour = self.nwp_kd_tree.nearest_index(coordinate)
         return nwp.sel(nearest_neighbour)
 
-    @staticmethod
-    def deaccumulate_radiation(nwp: xr.Dataset) -> xr.Dataset:
-        nwp = nwp.copy()
-        accum_radiation = nwp[
-            ["accumulated_global_radiation_J_m2", "accumulated_direct_radiation_J_m2"]
-        ]
-        deaccum_radiation = accum_radiation - accum_radiation.shift(time_utc=1)
-        nwp[["global_radiation_J_m2", "direct_radiation_J_m2"]] = deaccum_radiation
-        nwp = nwp.drop_vars(
-            ["accumulated_global_radiation_J_m2", "accumulated_direct_radiation_J_m2"]
-        )
-        return nwp
-
-    @staticmethod
-    def radiation_energy_to_power(nwp: xr.Dataset) -> xr.Dataset:
-        nwp = nwp.copy()
-        nwp[["global_radiation_W_m2", "direct_radiation_W_m2"]] = nwp[
-            ["global_radiation_J_m2", "direct_radiation_J_m2"]
-        ] / (60 * 60)
-        nwp = nwp.drop_vars(["global_radiation_J_m2", "direct_radiation_J_m2"])
-        return nwp
-
-    @staticmethod
-    def filter_to_latest_forecast(nwp: xr.Dataset) -> xr.Dataset:
-        nwp = nwp.ffill(dim="time_utc")
-        nwp = nwp.isel(calculation_time_utc=-1)
-        return nwp
 
     def run(self, system: System, nwp: Dataset) -> Dataset:
 

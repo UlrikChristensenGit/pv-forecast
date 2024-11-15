@@ -1,6 +1,6 @@
-from etl.jobs.versioned_nwp.job import ETL
+from azure_function.jobs.versioned_nwp.job import VersionedNwpETL
 
 if __name__ == "__main__":
-    etl = ETL()
+    etl = VersionedNwpETL()
 
     etl.run()

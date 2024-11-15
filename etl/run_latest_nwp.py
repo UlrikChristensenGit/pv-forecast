@@ -1,6 +1,6 @@
-from etl.jobs.latest_nwp.job import ETL
+from azure_function.jobs.latest_nwp.job import LatestNwpETL
 
 if __name__ == "__main__":
-    etl = ETL()
+    etl = LatestNwpETL()
 
     etl.run()

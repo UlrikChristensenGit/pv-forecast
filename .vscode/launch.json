@@ -14,6 +14,13 @@
             "justMyCode": false
         },
         {
+            "name": "Debug ETL",
+            "type": "python",
+            "request": "attach",
+            "port": 8075,
+            "preLaunchTask": "func: host start --port 8075",
+        },
+        {
             "name": "Debug Dash",
             "type": "debugpy",
             "request": "launch",

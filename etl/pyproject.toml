@@ -7,11 +7,17 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-polars = "^1.9.0"
-pv-forecast-sdk = {path = "/home/uch/PVForecast/sdk"}
 cfgrib = "^0.9.14.1"
+azure-identity = "^1.18.0"
 azure-functions = "^1.21.3"
-
+azure-storage-file-datalake = "^12.17.0"
+zarr = "^2.18.3"
+fsspec = "^2024.10.0"
+adlfs = "^2024.7.0"
+pandas = "^2.2.3"
+scipy = "^1.14.1"
+cftime = "^1.6.4"
+xarray = "^2024.10.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.10.0"

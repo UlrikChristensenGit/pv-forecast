@@ -1,5 +1,6 @@
 import dash_mantine_components as dmc
 from dash import dcc, html
+import datetime as dt
 from dash_app.elements import Form, Section, Field
 
 
@@ -139,6 +140,26 @@ container = html.Div(
                 ),
             ],
         ).container,
-        html.Div(className="result", children=[dcc.Loading(dcc.Graph(id="forecast-graph"))]),
+        html.Div(
+            id="display",
+            children=[
+                html.Div(
+                    id="display-filters",
+                    children=[
+                        dmc.DateRangePicker(
+                            className="display-filter",
+                            id="date-range",
+                            description="Periode",
+                            value=[
+                                dt.datetime.now().date(),
+                                dt.datetime.now().date() + dt.timedelta(days=1),
+                            ],
+                            allowSingleDateInRange=True,
+                        ),
+                    ]
+                ),
+                dcc.Loading(dcc.Graph(id="forecast-graph")),
+            ],
+        ),
     ],
 )

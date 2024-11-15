@@ -3,13 +3,12 @@
   "tasks": [
     {
       "type": "func",
-      "label": "func: host start",
-      "command": "host start",
+      "command": "host start --port 8075",
       "problemMatcher": "$func-python-watch",
       "isBackground": true,
       "options": {
-        "cwd": "${workspaceFolder}/data/etl"
-      }
-    }
+        "cwd": "${workspaceFolder}/etl/azure_function"
+      },
+    },
   ]
 }
