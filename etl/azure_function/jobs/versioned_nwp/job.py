@@ -4,16 +4,15 @@ from integrations.dataset import Dataset
 from integrations.log import Log
 import pandas as pd
 from tempfile import NamedTemporaryFile
-from logs import get_logger
-
-logger = get_logger(__name__)
+import logs
+logger = logs.get_logger(__name__)
 
 
 class VersionedNwpETL:
 
     def __init__(self):
         # source
-        self.dmi_open_data = DMIOpenData(api_key="ddcc9b1d-9ae0-4693-92f5-ee637c297969")
+        self.dmi_open_data = DMIOpenData()
         # destination
         self.versioned_nwp_dataset = Dataset("versioned_nwp")
         self.versioned_nwp_log = Log.create(

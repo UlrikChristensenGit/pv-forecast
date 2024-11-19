@@ -2,6 +2,7 @@ import numpy as np
 import xarray as xr
 from zarr.storage import FSStore
 import fsspec
+import os
 
 
 class Dataset:
@@ -13,8 +14,7 @@ class Dataset:
         self.name = name
         self.fs = fsspec.filesystem(
             protocol="az",
-            account_name="sapvforecastuch",
-            anon=False,
+            connection_string=os.environ["DATA_STORAGE_ACCOUNT_CONNECTION_STRING"],
         )
         self.remote_store = FSStore(
             url=f"az://data/{name}",

@@ -2,6 +2,7 @@ import requests as rq
 import pandas as pd
 from requests.exceptions import ChunkedEncodingError
 from pipeline import retry_policy
+import os
 
 
 BASE_URL = "https://dmigw.govcloud.dk/v1/forecastdata"
@@ -10,8 +11,8 @@ MODEL_NAME = "harmonie_dini_sf"
 
 class DMIOpenData:
 
-    def __init__(self, api_key: str):
-        self.api_key = api_key
+    def __init__(self):
+        self.api_key = os.environ["DMI_OPEN_DATA_API_KEY"]
 
     def get_collection(self) -> dict:
         response = rq.get(

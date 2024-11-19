@@ -18,6 +18,9 @@ pandas = "^2.2.3"
 scipy = "^1.14.1"
 cftime = "^1.6.4"
 xarray = "^2024.10.0"
+azure-monitor-opentelemetry-exporter = "^1.0.0b32"
+opentelemetry-sdk = "^1.28.2"
+python-dotenv = "^1.0.1"
 
 [tool.poetry.group.dev.dependencies]
 black = "^24.10.0"

@@ -1,6 +1,7 @@
 import pandas as pd
 import fsspec
 import logging
+import os
 
 class Log:
 
@@ -11,8 +12,7 @@ class Log:
         self.name = name
         self.fs = fsspec.filesystem(
             protocol="az",
-            account_name="sapvforecastuch",
-            anon=False,
+            connection_string=os.environ["DATA_STORAGE_ACCOUNT_CONNECTION_STRING"],
         )
         self.url = f"az://data/{name}/.csv"
         
