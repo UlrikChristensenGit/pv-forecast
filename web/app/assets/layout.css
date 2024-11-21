@@ -1,0 +1,105 @@
+body {
+    background-color: rgb(255, 230, 210);
+    font-family: sans-serif;
+}
+
+
+h1 {
+    color: rgb(175, 120, 75);
+}
+
+label {
+    font-size: 14px;
+}
+
+#home {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    padding: 0% 10% 0 10%
+}
+
+.nav-bar {
+    display: flex;
+    background-color: rgb(175, 120, 75);
+    margin: 10px 0 20px 0;
+    padding: 5px;
+}
+
+.tab {
+    padding: 10px;
+    text-decoration: none;
+    color: white;
+}
+
+.tab:hover {
+    color: rgba(255,255,255,.5);
+}
+
+#forecast {
+    display: flex;
+    flex-direction: row;
+    justify-content: stretch;
+    column-gap: 20px;
+}
+
+.form {
+    padding: 20px;
+    display: flex;
+    width: 400px;
+    flex-direction: column;
+    background-color: rgb(255, 238, 224);
+}
+
+.section-header {
+    font-style: italic;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+}
+
+.field-header {
+    font-weight: bold;
+}
+
+.field-body {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 5px;
+}
+
+.field-helper {
+    font-style: italic;
+    color: grey;
+}
+
+.field-pickers {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+}
+
+
+.mantine-Select-item:nth {
+    font-size: 0px;
+}
+
+#display {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    width: 100%;
+    height: 100%;
+}
+
+#forecast-filters {
+    align-self: flex-end;
+}
+
+#date-range-filter .mantine-DateRangePicker-input, #date-range-filter .mantine-DateRangePicker-dropdown {
+    background-color: rgb(255, 238, 224);
+}

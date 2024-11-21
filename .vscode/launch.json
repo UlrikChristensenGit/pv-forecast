@@ -17,15 +17,16 @@
             "name": "Debug ETL",
             "type": "python",
             "request": "attach",
-            "port": 8075,
+            "port": 9075,
             "preLaunchTask": "func: host start --port 8075",
         },
         {
             "name": "Debug Dash",
             "type": "debugpy",
             "request": "launch",
-            "module": "dash_app",
-            "cwd": "${workspaceFolder}/web"
+            "module": "app",
+            "cwd": "${workspaceFolder}/web",
+            "justMyCode": false
         }
     ]
 }
