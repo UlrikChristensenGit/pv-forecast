@@ -63,7 +63,7 @@ def read_grib(file_path: str) -> xr.Dataset:
     return xr.merge(ds_params)
 
 
-def transform_nwp(ds: xr.Dataset) -> xr.Dataset:
+def transform(ds: xr.Dataset) -> xr.Dataset:
     ds = ds.rename(
         {
             "t2m": "temperature_K",

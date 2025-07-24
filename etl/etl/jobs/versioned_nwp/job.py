@@ -75,7 +75,7 @@ class VersionedNwpETL:
                 # read temporary file
                 ds = transformations.read_grib(tmp_download_file.name)
 
-                ds = transformations.transform_nwp(ds)
+                ds = transformations.transform(ds)
 
                 # write to datalake
                 self.versioned_nwp_dataset.write(ds)

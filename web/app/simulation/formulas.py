@@ -3,7 +3,7 @@ import datetime as dt
 import numpy as np
 import pvlib
 
-from app.simulation.models import NWP, Coordinate, System, SystemParameters
+from simulation.models import NWP, Coordinate, System, SystemParameters
 
 from . import constants
 
@@ -101,7 +101,7 @@ def ac_power_from_poa(
         eta_inv_nom=system_params.inverter_params.nominal_efficiency,
     )
 
-    ac_power = np.clip(ac_power_no_inverter_limit, 0, ac_capacity)
+    ac_power = np.clip(ac_power_no_inverter_limit, 0.0, ac_capacity)
 
     return ac_power
 

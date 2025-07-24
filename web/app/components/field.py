@@ -6,23 +6,14 @@ class Field:
     def __new__(
         cls,
         name: str,
-        pickers: list[html.Div],
-        helper_id: str = None,
+        inputs: list[html.Div],
     ) -> html.Div:
         field_body_children = [
             html.Div(
-                className="field-pickers",
-                children=pickers,
+                className="field-inputs",
+                children=inputs,
             ),
         ]
-
-        if helper_id:
-            field_body_children.append(
-                html.Div(
-                    className="field-helper",
-                    id=helper_id,
-                )
-            )
 
         field_children = [
             html.Div(

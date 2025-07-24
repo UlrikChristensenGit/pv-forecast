@@ -63,10 +63,15 @@ class LatestNwpETL:
 
             ds = self.versioned_nwp_dataset.read()
 
+            logger.info(f"Selecting batch time {batch['model_run_time_utc']}")
+
             ds = ds.sel(model_run_time_utc=batch["model_run_time_utc"])
+
+            logger.info("Transforming dataset")
 
             ds = transformations.transform(ds)
 
+            logger.info(f"Writing dataset")
             self.latest_nwp_dataset.write(ds)
 
             self.latest_nwp_log.write(df=batch.to_frame().T)

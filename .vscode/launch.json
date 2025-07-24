@@ -24,9 +24,12 @@
             "name": "Debug Dash",
             "type": "debugpy",
             "request": "launch",
-            "module": "app",
-            "cwd": "${workspaceFolder}/web",
-            "justMyCode": false
+            "program": "run_app.py",
+            "cwd": "${workspaceFolder}/web/app",
+            "justMyCode": false,
+            "env": {
+                "DEBUG": "1",
+            }
         }
     ]
 }

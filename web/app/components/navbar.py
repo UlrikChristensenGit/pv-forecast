@@ -1,6 +1,6 @@
 from dash import html
 
-from app.components.tab import Tab
+from components.tab import Tab
 
 
 class NavBar:

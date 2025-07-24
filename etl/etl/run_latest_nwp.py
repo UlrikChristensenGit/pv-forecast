@@ -1,8 +1,9 @@
 import dotenv
+dotenv.load_dotenv()
+
 from logs import get_logger
 logger = get_logger(__name__)
 
-dotenv.load_dotenv()
 
 from jobs.latest_nwp.job import LatestNwpETL
 

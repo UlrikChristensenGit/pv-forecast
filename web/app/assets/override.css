@@ -1,0 +1,7 @@
+.mantine-SegmentedControl-root {
+    background-color: transparent;
+}
+
+.mantine-ScrollArea-root[data-hovered] {
+    background-color: red;
+}

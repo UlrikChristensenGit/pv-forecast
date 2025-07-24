@@ -1,0 +1,41 @@
+.form {
+    padding: 10px;
+    flex-direction: column;
+}
+
+.section[data-active] {
+    background-color: transparent;
+}
+
+.section-header .mantine-Accordion-label {
+    font-style: italic;
+}
+
+.section-body .mantine-Accordion-content {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+}
+
+.field-header {
+    font-weight: bold;
+}
+
+.field-body {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+}
+
+.field-inputs {
+    display: flex;
+    flex-direction: column;
+    row-gap: 5px;
+}
+

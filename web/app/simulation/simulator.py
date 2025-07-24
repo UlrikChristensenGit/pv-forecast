@@ -4,9 +4,9 @@ import pandas as pd
 import xarray as xr
 from xarray import Dataset
 
-from app.simulation import formulas
-from app.simulation.kdtree import CoordinateKDTree
-from app.simulation.models import Coordinate, System
+from simulation import formulas
+from simulation.kdtree import CoordinateKDTree
+from simulation.models import Coordinate, System
 
 
 def ac_power_from_nwp(
@@ -49,15 +49,21 @@ class Simulator:
     def interpolate_nwp_on_time(self, ds: xr.Dataset):
         freq = xr.infer_freq(ds["time_utc"])
 
-        start_freq = pd.Timedelta(f"1{freq}").to_numpy()
+        start_freq = pd.Timedelta(f"1{freq}")
 
-        end_freq = pd.Timedelta("PT5M").to_numpy()
+        end_freq = pd.Timedelta("PT5M")
 
         ds = ds.dropna(dim="time_utc")
 
-        ds = ds.resample(time_utc=end_freq).asfreq()
+        index = pd.date_range(
+            start=ds["time_utc"].values.min(),
+            end=ds["time_utc"].values.max(),
+            freq=end_freq,
+        )
 
-        ds = ds.interpolate_na(dim="time_utc", method="phcip")
+        ds = ds.reindex(time_utc=index)
+
+        ds = ds.interpolate_na(dim="time_utc", method="pchip")
 
         ds["time_utc"] = ds["time_utc"] - start_freq / 2
 

@@ -1,0 +1,13 @@
+.bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    column-gap: 20px;
+}
+
+.filter {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    column-gap: 10px;
+}

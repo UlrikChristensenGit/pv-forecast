@@ -1,6 +1,6 @@
 import dash_mantine_components as dmc
 
-from app.components.field import Field
+from components.field import Field
 
 
 class Section:
@@ -16,8 +16,8 @@ class Section:
             value=name,
             children=[
                 dmc.AccordionControl(
-                    children=name,
                     className="section-header",
+                    children=name,
                 ),
                 dmc.AccordionPanel(
                     className="section-body",
